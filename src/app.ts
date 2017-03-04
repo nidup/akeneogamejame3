@@ -21,7 +21,6 @@ class SimpleGame {
     */
 
     private map;
-    private tileset;
     private layer;
     private player;
     private facing = 'right';
@@ -50,9 +49,6 @@ class SimpleGame {
         this.game.load.spritesheet('king', 'assets/forrest/king.png', 32, 32);
         this.game.load.spritesheet('dude', 'assets/forrest/lutin.png', 32, 32);
         this.game.load.spritesheet('snake', 'assets/forrest/snake.png', 32, 32);
-
-        //this.game.load.image('background', 'assets/starstruck/background2.png');
-
         this.game.load.image('background-day', 'assets/forrest/background-day.png');
         this.game.load.image('background-night', 'assets/forrest/background-night.png');
     }
@@ -196,8 +192,8 @@ class SimpleGame {
         this.bg = this.game.add.tileSprite(0, 0, 800, 600, 'background-night');
         this.bg = this.game.add.tileSprite(0, 0, 800, 600, 'background-day');
 
-        this.bg.loadTexture('background-night');
-        //this.bg.loadTexture('background-day');
+        //this.bg.loadTexture('background-night');
+        this.bg.loadTexture('background-day');
 
 
         this.bg.fixedToCamera = true;
@@ -207,23 +203,21 @@ class SimpleGame {
         this.map.addTilesetImage('tiles-1');
 
         this.map.setCollisionByExclusion([
-            8, 9,
-            17, 18,
-            26, 27,
-            34, 35,
-            36, 37, 43, 44,
-            45, 52, 53,
-            54, 61, 62, 63,
+            8, 9, 10,
+            18, 19, 20,
+            28, 29, 30, 31, 35,
+            37, 38, 39,
+            40, 41, 42, 43, 44,
+            50, 57, 58, 59,
+            60, 67, 68, 69, 70,
 
-            10, 13, 14, 15
-
-
+            11, 14, 15, 16
         ]);
 
         this.layer = this.map.createLayer('Tile Layer 1');
 
         //  Un-comment this on to see the collision tiles
-        // layer.debug = true;
+        this.layer.debug = true;
 
         this.layer.resizeWorld();
 
