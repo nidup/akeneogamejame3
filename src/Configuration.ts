@@ -12,7 +12,7 @@ export default class Configuration {
     }
 
     public getGameHeight() {
-        return 600;
+        return 32 * 16;
     }
 
     public getGameWidthInTiles() {

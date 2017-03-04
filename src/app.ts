@@ -24,7 +24,7 @@ class SimpleGame {
     private tileset;
     private layer;
     private player;
-    private facing = 'left';
+    private facing = 'right';
     private jumpTimer = 0;
     private cursors;
     private jumpButton;
@@ -44,23 +44,17 @@ class SimpleGame {
 
     public preload() {
 
-        this.game.load.tilemap('level1', 'assets/starstruck/level1.json', null, Phaser.Tilemap.TILED_JSON);
-        this.game.load.image('tiles-1', 'assets/starstruck/tiles-1.png');
-        this.game.load.spritesheet('dude', 'assets/starstruck/dude.png', 32, 48);
-        this.game.load.spritesheet('droid', 'assets/starstruck/droid.png', 32, 32);
-        this.game.load.image('starSmall', 'assets/starstruck/star.png');
-        this.game.load.image('starBig', 'assets/starstruck/star2.png');
-        this.game.load.image('background', 'assets/starstruck/background2.png');
-        /*
-        this.game.load.image("tileset", "assets/tileset.png");
-        this.game.load.image("stars", "assets/starfield.jpg");
-        this.game.load.spritesheet("ship1", "assets/player_ship_1.png", 24, 28);
-        this.game.load.spritesheet("ship2", "assets/player_ship_2.png", 24, 28);
-        this.game.load.spritesheet("ship3", "assets/player_ship_3.png", 24, 28);
-        this.game.load.spritesheet("ship4", "assets/player_ship_4.png", 24, 28);
-        this.game.load.image("bullet", "assets/bullet.png");
-        this.game.load.spritesheet("explosion", "assets/explode.png", 128, 128);
-        */
+        this.game.load.tilemap('level1', 'assets/forrest/level1.json', null, Phaser.Tilemap.TILED_JSON);
+        this.game.load.image('tiles-1', 'assets/forrest/tiles.png');
+        this.game.load.spritesheet('nude', 'assets/forrest/nude.png', 32, 32);
+        this.game.load.spritesheet('king', 'assets/forrest/king.png', 32, 32);
+        this.game.load.spritesheet('dude', 'assets/forrest/lutin.png', 32, 32);
+        this.game.load.spritesheet('snake', 'assets/forrest/snake.png', 32, 32);
+
+        //this.game.load.image('background', 'assets/starstruck/background2.png');
+
+        this.game.load.image('background-day', 'assets/forrest/background-day.png');
+        this.game.load.image('background-night', 'assets/forrest/background-night.png');
     }
 
     public create() {
@@ -95,26 +89,21 @@ class SimpleGame {
         }
         else
         {
-            if (this.facing != 'idle')
+            if (this.facing == 'right' && this.facing != 'idle')
             {
-                this.player.animations.stop();
-
-                if (this.facing == 'left')
-                {
-                    this.player.frame = 0;
-                }
-                else
-                {
-                    this.player.frame = 5;
-                }
-
+                this.player.animations.play('idle-right');
+                this.facing = 'idle';
+            }
+            else if (this.facing == 'left' && this.facing != 'idle')
+            {
+                this.player.animations.play('idle-left');
                 this.facing = 'idle';
             }
         }
 
         if (this.jumpButton.isDown && this.player.body.onFloor() && this.game.time.now > this.jumpTimer)
         {
-            this.player.body.velocity.y = -250;
+            this.player.body.velocity.y = -150;
             this.jumpTimer = this.game.time.now + 750;
         }
 
@@ -204,14 +193,32 @@ class SimpleGame {
 
         this.game.stage.backgroundColor = '#000000';
 
-        this.bg = this.game.add.tileSprite(0, 0, 800, 600, 'background');
+        this.bg = this.game.add.tileSprite(0, 0, 800, 600, 'background-night');
+        this.bg = this.game.add.tileSprite(0, 0, 800, 600, 'background-day');
+
+        this.bg.loadTexture('background-night');
+        //this.bg.loadTexture('background-day');
+
+
         this.bg.fixedToCamera = true;
 
         this.map = this.game.add.tilemap('level1');
 
         this.map.addTilesetImage('tiles-1');
 
-        this.map.setCollisionByExclusion([ 13, 14, 15, 16, 46, 47, 48, 49, 50, 51 ]);
+        this.map.setCollisionByExclusion([
+            8, 9,
+            17, 18,
+            26, 27,
+            34, 35,
+            36, 37, 43, 44,
+            45, 52, 53,
+            54, 61, 62, 63,
+
+            10, 13, 14, 15
+
+
+        ]);
 
         this.layer = this.map.createLayer('Tile Layer 1');
 
@@ -220,18 +227,23 @@ class SimpleGame {
 
         this.layer.resizeWorld();
 
-        this.game.physics.arcade.gravity.y = 250;
+        this.game.physics.arcade.gravity.y = 350;
 
-        this.player = this.game.add.sprite(32, 32, 'dude');
+        this.player = this.game.add.sprite(50, 370, 'king');
+        this.player.anchor.setTo(.5,.5);
+
         this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
 
         this.player.body.bounce.y = 0.2;
         this.player.body.collideWorldBounds = true;
-        this.player.body.setSize(20, 32, 5, 16);
+        //this.player.body.setSize(16, 16, 0, 0); // TODO ????
+        //this.player.body.setCircle(14); // TODO ????
 
-        this.player.animations.add('left', [0, 1, 2, 3], 10, true);
-        this.player.animations.add('turn', [4], 20, true);
-        this.player.animations.add('right', [5, 6, 7, 8], 10, true);
+        this.player.animations.add('idle-left', [23], 10, true);
+        this.player.animations.add('left', [23, 24, 25, 26], 10, true);
+        this.player.animations.add('idle-right', [0], 10, true);
+        this.player.animations.add('right', [0, 1, 2, 3], 10, true);
+        //this.player.animations.add('turn', [4], 20, true);
 
         this.game.camera.follow(this.player);
 
