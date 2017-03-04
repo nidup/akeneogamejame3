@@ -8,11 +8,11 @@ export default class Configuration {
     }
 
     public getGameWidth() {
-        return this.getTileWidth() * this.getGameWidthInTiles() * this.getPixelRatio();
+        return 800;
     }
 
     public getGameHeight() {
-        return this.getTileHeight() * this.getGameHeightInTiles() * this.getPixelRatio();
+        return 600;
     }
 
     public getGameWidthInTiles() {

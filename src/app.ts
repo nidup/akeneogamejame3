@@ -9,6 +9,8 @@ import {KeyboardControlEngine, GamePadControlEngine, DummyControlEngine} from ".
 class SimpleGame {
     private game: Phaser.Game;
     private configuration: Configuration;
+
+    /*
     private chunkRegistry: MapChunkRegistry;
     private currentChunk: MapChunk;
     private player: Ship = null;
@@ -16,20 +18,40 @@ class SimpleGame {
     private layer: Phaser.TilemapLayer = null;
     private generating: boolean = false;
     private enemy: Ship = null;
+    */
+
+    private map;
+    private tileset;
+    private layer;
+    private player;
+    private facing = 'left';
+    private jumpTimer = 0;
+    private cursors;
+    private jumpButton;
+    private bg;
 
     constructor(config: Configuration) {
         this.configuration = config;
         this.game = new Phaser.Game(
             this.configuration.getGameWidth(),
             this.configuration.getGameHeight(),
-            Phaser.AUTO,
+            Phaser.CANVAS,
             "content",
             this
         );
-        this.chunkRegistry = new MapChunkRegistry(this.game.rnd, this.configuration);
+        //this.chunkRegistry = new MapChunkRegistry(this.game.rnd, this.configuration);
     }
 
     public preload() {
+
+        this.game.load.tilemap('level1', 'assets/starstruck/level1.json', null, Phaser.Tilemap.TILED_JSON);
+        this.game.load.image('tiles-1', 'assets/starstruck/tiles-1.png');
+        this.game.load.spritesheet('dude', 'assets/starstruck/dude.png', 32, 48);
+        this.game.load.spritesheet('droid', 'assets/starstruck/droid.png', 32, 32);
+        this.game.load.image('starSmall', 'assets/starstruck/star.png');
+        this.game.load.image('starBig', 'assets/starstruck/star2.png');
+        this.game.load.image('background', 'assets/starstruck/background2.png');
+        /*
         this.game.load.image("tileset", "assets/tileset.png");
         this.game.load.image("stars", "assets/starfield.jpg");
         this.game.load.spritesheet("ship1", "assets/player_ship_1.png", 24, 28);
@@ -38,6 +60,7 @@ class SimpleGame {
         this.game.load.spritesheet("ship4", "assets/player_ship_4.png", 24, 28);
         this.game.load.image("bullet", "assets/bullet.png");
         this.game.load.spritesheet("explosion", "assets/explode.png", 128, 128);
+        */
     }
 
     public create() {
@@ -45,6 +68,57 @@ class SimpleGame {
     }
 
     public update() {
+
+        this.game.physics.arcade.collide(this.player, this.layer);
+
+        this.player.body.velocity.x = 0;
+
+        if (this.cursors.left.isDown)
+        {
+            this.player.body.velocity.x = -150;
+
+            if (this.facing != 'left')
+            {
+                this.player.animations.play('left');
+                this.facing = 'left';
+            }
+        }
+        else if (this.cursors.right.isDown)
+        {
+            this.player.body.velocity.x = 150;
+
+            if (this.facing != 'right')
+            {
+                this.player.animations.play('right');
+                this.facing = 'right';
+            }
+        }
+        else
+        {
+            if (this.facing != 'idle')
+            {
+                this.player.animations.stop();
+
+                if (this.facing == 'left')
+                {
+                    this.player.frame = 0;
+                }
+                else
+                {
+                    this.player.frame = 5;
+                }
+
+                this.facing = 'idle';
+            }
+        }
+
+        if (this.jumpButton.isDown && this.player.body.onFloor() && this.game.time.now > this.jumpTimer)
+        {
+            this.player.body.velocity.y = -250;
+            this.jumpTimer = this.game.time.now + 750;
+        }
+
+        /*
         // TODO: reset bullets positions when changing chunk
         // TODO: reset enemy does not work properly, only works when enemy is following the player
         if (this.generating === false && this.player.getX() > this.configuration.getRightBorder()) {
@@ -87,6 +161,7 @@ class SimpleGame {
             this.enemy.resetPosition(this.enemy.getX(), enemyY);
             this.generating = false;
         }
+        */
 
         // TODO: set a timer to pre-generate upcoming chunks to reduce the lag effect (only repaint)
     }
@@ -94,8 +169,7 @@ class SimpleGame {
     public render() {
         this.game.debug.text(
             "FPS: "  + this.game.time.fps + " "
-            + " Player PV " + this.player.health + " "
-            + " Enemy PV " + this.enemy.health + " ",
+            + " Player PV " + this.player.health + " ",
             2,
             14,
             "#00ff00"
@@ -104,6 +178,7 @@ class SimpleGame {
 
     private createWorld() {
 
+        /*
         this.game.time.advancedTiming = true;
         this.game.world.setBounds(0, 0, this.configuration.getMapChunkWidth(), this.configuration.getMapChunkHeight());
         this.game.physics.startSystem(Phaser.Physics.P2JS);
@@ -123,8 +198,48 @@ class SimpleGame {
 
         this.buildPlayer();
         this.buildEnemy();
-    }
+        */
 
+        this.game.physics.startSystem(Phaser.Physics.ARCADE);
+
+        this.game.stage.backgroundColor = '#000000';
+
+        this.bg = this.game.add.tileSprite(0, 0, 800, 600, 'background');
+        this.bg.fixedToCamera = true;
+
+        this.map = this.game.add.tilemap('level1');
+
+        this.map.addTilesetImage('tiles-1');
+
+        this.map.setCollisionByExclusion([ 13, 14, 15, 16, 46, 47, 48, 49, 50, 51 ]);
+
+        this.layer = this.map.createLayer('Tile Layer 1');
+
+        //  Un-comment this on to see the collision tiles
+        // layer.debug = true;
+
+        this.layer.resizeWorld();
+
+        this.game.physics.arcade.gravity.y = 250;
+
+        this.player = this.game.add.sprite(32, 32, 'dude');
+        this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
+
+        this.player.body.bounce.y = 0.2;
+        this.player.body.collideWorldBounds = true;
+        this.player.body.setSize(20, 32, 5, 16);
+
+        this.player.animations.add('left', [0, 1, 2, 3], 10, true);
+        this.player.animations.add('turn', [4], 20, true);
+        this.player.animations.add('right', [5, 6, 7, 8], 10, true);
+
+        this.game.camera.follow(this.player);
+
+        this.cursors = this.game.input.keyboard.createCursorKeys();
+        this.jumpButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+
+    }
+/*
     private buildPlayer() {
         let controlEngine = null;
         if (this.configuration.playWithGamePad()) {
@@ -191,13 +306,13 @@ class SimpleGame {
         painter.paint(this.map, this.layer, tiles);
 
         return this.layer;
-    }
+    }*/
 }
 
 /**
  * Paints a tile map layer with the given set of tiles, the layer will contains empty tiles around the painted tiles to
  * allow to always keep the player centered in the screen
- */
+ *
 class TilemapPainter {
     public paint(map: Phaser.Tilemap, layer: Phaser.TilemapLayer, tiles: Array<Array<number>>) {
 
@@ -210,7 +325,7 @@ class TilemapPainter {
             }
         }
     }
-}
+}*/
 
 window.onload = () => {
     let configuration = new Configuration();
