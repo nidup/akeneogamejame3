@@ -16,6 +16,8 @@ export default class Play extends Phaser.State {
     private debug: boolean = false;
     private seaLevel: number = 450;
     private briefingText : Phaser.BitmapText;
+    private coinLeftEmitter;
+    private coinRightEmitter;
 
     public create()
     {
@@ -65,7 +67,19 @@ export default class Play extends Phaser.State {
         this.gnomes[2] = new Gnome(this.game, 1550, 370, 'gnome', 0);
         this.gnomes[3] = new Gnome(this.game, 1750, 370, 'gnome', 0);
 
-        this.levelProgress = new LevelProgress(this.gnomes);
+        this.levelProgress = new LevelProgress(this.gnomes, this.hero);
+
+        this.coinLeftEmitter = this.game.add.emitter(0, 80, 1000);
+        this.coinLeftEmitter.bounce.setTo(0.5, 0.5);
+        this.coinLeftEmitter.setXSpeed(100, 500);
+        this.coinLeftEmitter.setYSpeed(-50, 50);
+        this.coinLeftEmitter.makeParticles('coin', [0, 1, 2, 3, 4, 5, 6, 7]);
+
+        this.coinRightEmitter = this.game.add.emitter(800, 80, 1000);
+        this.coinRightEmitter.bounce.setTo(0.5, 0.5);
+        this.coinRightEmitter.setXSpeed(-100, -500);
+        this.coinRightEmitter.setYSpeed(-50, 50);
+        this.coinRightEmitter.makeParticles('coin', [0, 1, 2, 3, 4, 5, 6, 7]);
     }
 
     public update()
@@ -78,8 +92,14 @@ export default class Play extends Phaser.State {
             this.hero.drown();
         }
 
-        if (this.levelProgress.isDay() && this.hero.isBackHome()) {
-            this.briefingText.text = 'Yeahhhh!! Profit!!!!';
+        if (this.levelProgress.isFinished()) {
+            this.briefingText.text = 'Yeahhhh!! Profit!!!! You finished the game :D';
+            this.coinLeftEmitter.start(false, 5000, 20);
+            this.coinRightEmitter.start(false, 5000, 20);
+            this.hero.dance();
+            for (let i = 0; i < this.gnomes.length; i++) {
+                this.gnomes[i].dance();
+            }
         }
 
         for (let i = 0; i < this.snakes.length; i++) {

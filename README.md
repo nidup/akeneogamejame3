@@ -51,4 +51,6 @@ Thx @wlk for the following boilerplate https://github.com/wlk/phaser-typescript-
 
 Thx Buch for the Art Work http://opengameart.org/content/a-platformer-in-the-forest
 
+Thx Puddin for the Art Work http://opengameart.org/content/rotating-coin
+
 Thx Trey Parker & Matt Stone for the original Underpants Gnome idea https://en.wikipedia.org/wiki/Gnomes_(South_Park)

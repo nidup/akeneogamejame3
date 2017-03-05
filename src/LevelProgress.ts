@@ -1,12 +1,19 @@
 
 import {Gnome} from "./Gnome";
+import {Hero} from "./Hero";
 
 export default class LevelProgress {
 
     private gnomes: Array<Gnome>;
+    private hero: Hero;
 
-    constructor(gnomes: Array<Gnome>) {
+    constructor(gnomes: Array<Gnome>, hero: Hero) {
         this.gnomes = gnomes;
+        this.hero = hero;
+    }
+
+    public isFinished() {
+        return (this.isDay() && this.hero.isBackHome());
     }
 
     public isDay() {

@@ -8,6 +8,7 @@ export class Hero extends Phaser.Sprite {
     private jumpingKey: Phaser.Key;
     private jumpTimer = 0;
     private facing = 'right';
+    private dancing = false;
 
     constructor(game: Phaser.Game, x: number, y: number, key: string, frame: number, keyboard: Phaser.Keyboard) {
         super(game, x, y, key, frame);
@@ -27,6 +28,7 @@ export class Hero extends Phaser.Sprite {
         this.animations.add('left', [23, 24, 25, 26], 10, true);
         this.animations.add('idle-right', [0], 10, true);
         this.animations.add('right', [0, 1, 2, 3], 10, true);
+        this.animations.add('dancing', [0, 1, 2, 3, 18, 19, 20, 21, 22, 23, 24, 25, 26], 10, true);
 
         game.add.existing(this);
 
@@ -37,6 +39,14 @@ export class Hero extends Phaser.Sprite {
     public update ()
     {
         this.body.velocity.x = 0;
+
+        if (this.dancing) {
+            if (this.facing != 'dancing') {
+                this.animations.play('dancing');
+                this.facing = 'dancing';
+            }
+            return;
+        }
 
         if (this.cursorKeys.left.isDown) {
             this.body.velocity.x = -150;
@@ -85,6 +95,11 @@ export class Hero extends Phaser.Sprite {
 
     public isBackHome() {
         return this.x < this.finishX;
+    }
+
+    public dance () {
+        this.x = this.x + 1; // TODO: dirty hack to raise coins emitter
+        this.dancing = true;
     }
 
     private restartLevel() {
