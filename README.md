@@ -1,10 +1,12 @@
-# NameIt! TODO
+# Underpants Gnomes
 
 Small platformer game rushly developed #uglyCodeAndBugsInside with Typescript + Phaser JS for the Akeneo Game Jam #3.
 
 ![Image of GameJam](doc/game-jam-3.jpg)
 
-![Image of GameJam](doc/platformer.png)
+![Image of GameJam](doc/gnome-day.png)
+
+![Image of GameJam](doc/gnome-night.png)
 
 # Demo
 
@@ -48,3 +50,5 @@ Thx @grena for the Game Jam org!
 Thx @wlk for the following boilerplate https://github.com/wlk/phaser-typescript-boilerplate
 
 Thx Buch for the Art Work http://opengameart.org/content/a-platformer-in-the-forest
+
+Thx Trey Parker & Matt Stone for the original Underpants Gnome idea https://en.wikipedia.org/wiki/Gnomes_(South_Park)
