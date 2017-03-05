@@ -1,5 +1,5 @@
 {
-  "name": "nidup-vasco",
+  "name": "nidup-underpants-gnomes",
   "version": "1.0.0",
   "description": "Lil' game created with phaser + typescript",
   "main": "index.html",
@@ -9,11 +9,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nidup/vasco"
+    "url": "https://github.com/nidup/underpants-gnomes"
   },
   "author": "Nicolas <nicolas@akeneo.com>",
   "license": "MIT",
-  "homepage": "https://github.com/nidup/vasco",
+  "homepage": "https://github.com/nidup/underpants-gnomes",
   "devDependencies": {
     "webpack": "^1.12.12",
     "webpack-dev-server": "^1.14.1",
