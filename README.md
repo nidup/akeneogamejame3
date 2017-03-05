@@ -1,16 +1,14 @@
-# Vasco
+# NameIt! TODO
 
-Small endless exploration game rushly developed #uglyCodeAndBugsInside with Typescript + Phaser JS for the Akeneo Game Jam #2.
+Small platformer game rushly developed #uglyCodeAndBugsInside with Typescript + Phaser JS for the Akeneo Game Jam #3.
 
-![Image of GameJam](doc/game-jam-2.gif)
+![Image of GameJam](doc/game-jam-3.jpg)
 
-![Image of GameJam](doc/screenshot.png)
+![Image of GameJam](doc/platformer.png)
 
 # Demo
 
-You can access to the demo here https://nidup.github.io/vasco/
-
-The state of the project is more a POC regarding map generation than a playable game.
+You can access to the demo here TODO
 
 The demo is deployed on the `gh-pages` branch versionning the `build/bundles.js` file (npm run build to update).
 
@@ -49,6 +47,4 @@ Thx @grena for the Game Jam org!
 
 Thx @wlk for the following boilerplate https://github.com/wlk/phaser-typescript-boilerplate
 
-Thx Daniel Cook for the remastered Art Work of Tyrian http://www.lostgarden.com/2007/04/free-game-graphics-tyrian-ships-and.html
-
-Thx @Chmood for the inspiration for ground map generator and related tileset https://github.com/Chmood/shmup
+Thx Buch for the Art Work http://opengameart.org/content/a-platformer-in-the-forest

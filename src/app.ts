@@ -53,13 +53,14 @@ class SimpleGame {
 
     public render()
     {
+        /*
         this.game.debug.text(
             "FPS: "  + this.game.time.fps + " "
             + " Player PV " + this.hero.health + " ",
             2,
             14,
             "#00ff00"
-        );
+        );*/
     }
 
     private createWorld()
