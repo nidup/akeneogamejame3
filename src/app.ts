@@ -30,7 +30,7 @@ class SimpleGame {
         this.game.load.image('tiles-1', 'assets/forrest/tiles.png');
         this.game.load.spritesheet('nude', 'assets/forrest/nude.png', 32, 32);
         this.game.load.spritesheet('king', 'assets/forrest/king.png', 32, 32);
-        this.game.load.spritesheet('dude', 'assets/forrest/lutin.png', 32, 32);
+        this.game.load.spritesheet('gnome', 'assets/forrest/gnome.png', 32, 32);
         this.game.load.spritesheet('snake', 'assets/forrest/snake.png', 32, 32);
         this.game.load.image('background-day', 'assets/forrest/background-day.png');
         this.game.load.image('background-night', 'assets/forrest/background-night.png');
@@ -91,8 +91,8 @@ class SimpleGame {
 
         this.background = this.game.add.tileSprite(0, 0, 800, 600, 'background-night');
         this.background = this.game.add.tileSprite(0, 0, 800, 600, 'background-day');
-        //this.background.loadTexture('background-night');
-        this.background.loadTexture('background-day');
+        this.background.loadTexture('background-night');
+        //this.background.loadTexture('background-day');
         this.background.fixedToCamera = true;
 
         this.map = this.game.add.tilemap('level1');
@@ -114,7 +114,7 @@ class SimpleGame {
 
         this.game.physics.arcade.gravity.y = 350;
 
-        this.hero = new Hero(this.game, 50, 370, 'king', 0, this.game.input.keyboard);
+        this.hero = new Hero(this.game, 50, 370, 'gnome', 0, this.game.input.keyboard);
         this.game.camera.follow(this.hero);
 
         this.snakes = new Array();
