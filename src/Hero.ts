@@ -77,6 +77,11 @@ export class Hero extends Phaser.Sprite {
         this.restartLevel();
     }
 
+    public changeOriginPosition() {
+        this.originX = this.x;
+        this.originY = this.y;
+    }
+
     private restartLevel() {
         this.x = this.originX;
         this.y = this.originY;
