@@ -11,10 +11,11 @@ export default class Preload extends Phaser.State {
         this.load.spritesheet('snake', 'assets/forrest/snake.png', 32, 32);
         this.load.image('background-day', 'assets/forrest/background-day.png');
         this.load.image('background-night', 'assets/forrest/background-night.png');
+        this.load.bitmapFont('carrier-command', 'assets/fonts/carrier_command.png', 'assets/fonts/carrier_command.xml');
     }
 
     public create ()
     {
-        this.game.state.start('Play');
+        this.game.state.start('Menu');
     }
 }

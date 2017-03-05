@@ -21,9 +21,6 @@ export default class Play extends Phaser.State {
         if (this.debug) {
             this.game.time.advancedTiming = true
         }
-
-        this.game.physics.startSystem(Phaser.Physics.ARCADE);
-
         this.game.stage.backgroundColor = '#000000';
 
         this.background = this.game.add.tileSprite(0, 0, 800, 600, 'background-night');
