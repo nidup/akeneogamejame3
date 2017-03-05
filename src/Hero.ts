@@ -3,6 +3,7 @@ export class Hero extends Phaser.Sprite {
 
     private originX: number;
     private originY: number;
+    private finishX: number;
     private cursorKeys: Phaser.CursorKeys;
     private jumpingKey: Phaser.Key;
     private jumpTimer = 0;
@@ -13,6 +14,7 @@ export class Hero extends Phaser.Sprite {
 
         this.originX = x;
         this.originY = y;
+        this.finishX = x;
 
         this.anchor.setTo(.5,.5);
         game.physics.enable(this, Phaser.Physics.ARCADE);
@@ -79,6 +81,10 @@ export class Hero extends Phaser.Sprite {
     public changeOriginPosition() {
         this.originX = this.x;
         this.originY = this.y;
+    }
+
+    public isBackHome() {
+        return this.x < this.finishX;
     }
 
     private restartLevel() {

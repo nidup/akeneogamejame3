@@ -78,6 +78,10 @@ export default class Play extends Phaser.State {
             this.hero.drown();
         }
 
+        if (this.levelProgress.isDay() && this.hero.isBackHome()) {
+            this.briefingText.text = 'Yeahhhh!! Profit!!!!';
+        }
+
         for (let i = 0; i < this.snakes.length; i++) {
             this.game.physics.arcade.collide(this.snakes[i], this.layer);
             this.snakes[i].update();
@@ -99,6 +103,9 @@ export default class Play extends Phaser.State {
 
     public steal (hero: Hero, gnome: Gnome)
     {
+        if (gnome.isNude()) {
+            return;
+        }
         gnome.stolen();
         if (this.levelProgress.isDay()) {
             this.background.loadTexture('background-day');
