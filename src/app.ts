@@ -53,6 +53,11 @@ class SimpleGame {
 
     public render()
     {
+        this.game.debug.body(this.hero);
+        for (let i = 0; i < this.snakes.length; i++) {
+            this.game.debug.body(this.snakes[i]);
+        }
+
         /*
         this.game.debug.text(
             "FPS: "  + this.game.time.fps + " "
@@ -97,7 +102,7 @@ class SimpleGame {
         this.layer = this.map.createLayer('Tile Layer 1');
 
         //  Un-comment this on to see the collision tiles
-        //this.layer.debug = true;
+        this.layer.debug = true;
 
         this.layer.resizeWorld();
 
