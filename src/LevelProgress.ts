@@ -13,7 +13,7 @@ export default class LevelProgress {
         return this.countNudes() == this.gnomes.length;
     }
 
-    private countNudes() {
+    public countNudes() {
         let countNude = 0;
         for (let i = 0; i < this.gnomes.length; i++) {
             if (this.gnomes[i].isNude()) {

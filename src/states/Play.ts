@@ -15,6 +15,7 @@ export default class Play extends Phaser.State {
     private background;
     private debug: boolean = false;
     private seaLevel: number = 450;
+    private briefingText : Phaser.BitmapText;
 
     public create()
     {
@@ -27,6 +28,9 @@ export default class Play extends Phaser.State {
         this.background = this.game.add.tileSprite(0, 0, 800, 600, 'background-day');
         this.background.loadTexture('background-night');
         this.background.fixedToCamera = true;
+
+        this.briefingText = this.game.add.bitmapText(40, 40, 'carrier-command','Night has come, Let\'s collect underpants!', 10);
+        this.briefingText.fixedToCamera = true;
 
         this.map = this.game.add.tilemap('level1');
         this.map.addTilesetImage('tiles-1');
@@ -70,6 +74,7 @@ export default class Play extends Phaser.State {
         this.hero.update();
 
         if (this.hero.y > this.seaLevel) {
+            this.briefingText.text = 'Argh! I\'m drowing!!';
             this.hero.drown();
         }
 
@@ -89,6 +94,7 @@ export default class Play extends Phaser.State {
     public bite (hero: Hero, snake: Snake)
     {
         hero.biten();
+        this.briefingText.text = 'Argh! Bitten by a snake!';
     }
 
     public steal (hero: Hero, gnome: Gnome)
@@ -97,6 +103,9 @@ export default class Play extends Phaser.State {
         if (this.levelProgress.isDay()) {
             this.background.loadTexture('background-day');
             this.hero.changeOriginPosition();
+            this.briefingText.text = 'I have all of them and day is coming, let\'s go back home!';
+        } else {
+            this.briefingText.text = 'Niak, niak, niak, and '+this.levelProgress.countNudes()+' collected!';
         }
     }
 

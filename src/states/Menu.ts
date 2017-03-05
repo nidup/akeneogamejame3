@@ -17,7 +17,7 @@ export default class Menu extends Phaser.State {
         this.titleText = this.game.add.bitmapText(40, 100, 'carrier-command','Underpants Gnomes', 27);
         this.subtitleText = this.game.add.bitmapText(40, 140, 'carrier-command','Akeneo Game Jam #3 by nidup', 10);
         this.briefingTextLine1 = this.game.add.bitmapText(40, 240, 'carrier-command','As the king of gnomes, your plan is,', 15);
-        this.briefingTextLine2 = this.game.add.bitmapText(40, 270, 'carrier-command','A) Collect underpants during the night\n\nB) ? \n\nC) Profit', 15);
+        this.briefingTextLine2 = this.game.add.bitmapText(40, 270, 'carrier-command','A) Steal underpants\n\nB) ? \n\nC) Profit', 15);
         this.startText = this.game.add.bitmapText(240, 370, 'carrier-command','Press Enter to start', 10);
     }
 
