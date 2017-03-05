@@ -42,7 +42,53 @@ class SimpleGame {
 
     public create()
     {
-        this.createWorld();
+        if (this.configuration.debug()) {
+            this.game.time.advancedTiming = true
+        }
+
+        this.game.physics.startSystem(Phaser.Physics.ARCADE);
+
+        this.game.stage.backgroundColor = '#000000';
+
+        this.background = this.game.add.tileSprite(0, 0, 800, 600, 'background-night');
+        this.background = this.game.add.tileSprite(0, 0, 800, 600, 'background-day');
+        this.background.loadTexture('background-night');
+        this.background.fixedToCamera = true;
+
+        this.map = this.game.add.tilemap('level1');
+        this.map.addTilesetImage('tiles-1');
+        this.map.setCollision(
+            [
+                1, 2, 3, 4, 5, 6, 7,
+                12, 13,
+                21, 22, 23, 24, 25, 26, 27,
+                32, 33
+            ]
+        );
+
+        this.layer = this.map.createLayer('Tile Layer 1');
+        if (this.configuration.debug()) {
+            this.layer.debug = true;
+        }
+        this.layer.resizeWorld();
+
+        this.game.physics.arcade.gravity.y = 350;
+
+        this.hero = new Hero(this.game, 50, 370, 'king', 0, this.game.input.keyboard);
+        this.game.camera.follow(this.hero);
+
+        this.snakes = new Array();
+        this.snakes[0] = new Snake(this.game, 330, 370, 'snake', 0);
+        this.snakes[1] = new Snake(this.game, 750, 250, 'snake', 0);
+        this.snakes[2] = new Snake(this.game, 1050, 250, 'snake', 0);
+
+        this.gnomes = new Array();
+        this.gnomes[0] = new Gnome(this.game, 210, 200, 'gnome', 0);
+        this.gnomes[1] = new Gnome(this.game, 530, 370, 'gnome', 0);
+        this.gnomes[2] = new Gnome(this.game, 1550, 370, 'gnome', 0);
+        this.gnomes[3] = new Gnome(this.game, 1750, 370, 'gnome', 0);
+
+        this.levelProgress = new LevelProgress(this.gnomes);
     }
 
     public update()
@@ -96,57 +142,6 @@ class SimpleGame {
                 "#00ff00"
             );
         }
-    }
-
-    private createWorld()
-    {
-        if (this.configuration.debug()) {
-            this.game.time.advancedTiming = true
-        }
-
-        this.game.physics.startSystem(Phaser.Physics.ARCADE);
-
-        this.game.stage.backgroundColor = '#000000';
-
-        this.background = this.game.add.tileSprite(0, 0, 800, 600, 'background-night');
-        this.background = this.game.add.tileSprite(0, 0, 800, 600, 'background-day');
-        this.background.loadTexture('background-night');
-        this.background.fixedToCamera = true;
-
-        this.map = this.game.add.tilemap('level1');
-        this.map.addTilesetImage('tiles-1');
-        this.map.setCollision(
-            [
-                1, 2, 3, 4, 5, 6, 7,
-                12, 13,
-                21, 22, 23, 24, 25, 26, 27,
-                32, 33
-            ]
-        );
-
-        this.layer = this.map.createLayer('Tile Layer 1');
-        if (this.configuration.debug()) {
-            this.layer.debug = true;
-        }
-        this.layer.resizeWorld();
-
-        this.game.physics.arcade.gravity.y = 350;
-
-        this.hero = new Hero(this.game, 50, 370, 'king', 0, this.game.input.keyboard);
-        this.game.camera.follow(this.hero);
-
-        this.snakes = new Array();
-        this.snakes[0] = new Snake(this.game, 330, 370, 'snake', 0);
-        this.snakes[1] = new Snake(this.game, 750, 250, 'snake', 0);
-        this.snakes[2] = new Snake(this.game, 1050, 250, 'snake', 0);
-
-        this.gnomes = new Array();
-        this.gnomes[0] = new Gnome(this.game, 210, 200, 'gnome', 0);
-        this.gnomes[1] = new Gnome(this.game, 530, 370, 'gnome', 0);
-        this.gnomes[2] = new Gnome(this.game, 1550, 370, 'gnome', 0);
-        this.gnomes[3] = new Gnome(this.game, 1750, 370, 'gnome', 0);
-
-        this.levelProgress = new LevelProgress(this.gnomes);
     }
 }
 
