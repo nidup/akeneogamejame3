@@ -1,27 +1,14 @@
 /// <reference path="../lib/phaser.d.ts"/>
 
 import Configuration from "./Configuration";
-import {MapChunkRegistry, MapChunk} from "./MapGenerator";
-import {Ship} from "./Ship";
-import {ShipBuilder} from "./ShipBuilder";
-import {KeyboardControlEngine, GamePadControlEngine, DummyControlEngine} from "./ControlEngine";
 import {Hero} from "./Hero";
+import {Snake} from "./Snake";
 
 class SimpleGame {
     private game: Phaser.Game;
     private configuration: Configuration;
-
-    /*
-    private chunkRegistry: MapChunkRegistry;
-    private currentChunk: MapChunk;
-    private player: Ship = null;
-    private map: Phaser.Tilemap = null;
-    private layer: Phaser.TilemapLayer = null;
-    private generating: boolean = false;
-    private enemy: Ship = null;
-    */
-
     private hero: Hero;
+    private snakes: Array<Snake>;
     private map;
     private layer;
     private bg;
@@ -58,6 +45,10 @@ class SimpleGame {
     {
         this.game.physics.arcade.collide(this.hero, this.layer);
         this.hero.update();
+        for (let i = 0; i < this.snakes.length; i++) {
+            this.game.physics.arcade.collide(this.snakes[i], this.layer);
+            this.snakes[i].update();
+        }
     }
 
     public render()
@@ -105,7 +96,7 @@ class SimpleGame {
         this.layer = this.map.createLayer('Tile Layer 1');
 
         //  Un-comment this on to see the collision tiles
-        this.layer.debug = true;
+        //this.layer.debug = true;
 
         this.layer.resizeWorld();
 
@@ -113,75 +104,12 @@ class SimpleGame {
 
         this.hero = new Hero(this.game, 50, 370, 'king', 0, this.game.input.keyboard);
         this.game.camera.follow(this.hero);
+
+        this.snakes = new Array();
+        this.snakes[0] = new Snake(this.game, 330, 370, 'snake', 0);
+        this.snakes[1] = new Snake(this.game, 750, 250, 'snake', 0);
+        this.snakes[2] = new Snake(this.game, 1050, 250, 'snake', 0);
     }
-/*
-    private buildPlayer() {
-        let controlEngine = null;
-        if (this.configuration.playWithGamePad()) {
-            let pad = this.game.input.gamepad.pad1;
-            this.game.input.gamepad.start();
-            controlEngine = new GamePadControlEngine(pad);
-        } else {
-            controlEngine = new KeyboardControlEngine(this.game.input.keyboard);
-        }
-
-        let shipBuilder = new ShipBuilder();
-        this.player = shipBuilder.buildSprite(
-            this.game,
-            "ship1",
-            this.configuration.getMapChunkWidth() / 2,
-            this.configuration.getMapChunkHeight() / 2,
-            this.configuration.getPixelRatio(),
-            controlEngine,
-            200,
-            300
-        );
-
-        this.game.camera.follow(this.player);
-    }
-
-    private buildEnemy() {
-        let controlEngine = new DummyControlEngine();
-        let shipBuilder = new ShipBuilder();
-        this.enemy = shipBuilder.buildSprite(
-            this.game,
-            "ship2",
-            this.configuration.getMapChunkWidth() / 2 + 100,
-            this.configuration.getMapChunkHeight() / 2,
-            this.configuration.getPixelRatio(),
-            controlEngine,
-            800,
-            50
-        );
-        controlEngine.configure(this.player, this.enemy);
-    }
-
-    private repaintCurrentChunk() {
-        let newLayer = this.getLayer(this.currentChunk);
-    }
-
-    private getLayer(chunk: MapChunk) {
-        if (this.layer === null) {
-            let newLayer = this.map.create(
-                this.currentChunk.getRandState(),
-                this.configuration.getMapChunkWidthInTiles(),
-                this.configuration.getMapChunkHeightInTiles(),
-                this.configuration.getTileWidth(),
-                this.configuration.getTileHeight()
-            );
-            newLayer.scale.setTo(this.configuration.getPixelRatio(), this.configuration.getPixelRatio());
-            if (this.layer !== null) {
-                this.layer.destroy();
-            }
-            this.layer = newLayer;
-        }
-
-        let tiles = this.currentChunk.getFinalTiles();
-        let painter = new TilemapPainter();
-        painter.paint(this.map, this.layer, tiles);
-
-        return this.layer;
-    }*/
 }
 
 window.onload = () => {
