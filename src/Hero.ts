@@ -1,6 +1,8 @@
 
 export class Hero extends Phaser.Sprite {
 
+    private originX: number;
+    private originY: number;
     private cursorKeys: Phaser.CursorKeys;
     private jumpingKey: Phaser.Key;
     private jumpTimer = 0;
@@ -9,13 +11,16 @@ export class Hero extends Phaser.Sprite {
     constructor(game: Phaser.Game, x: number, y: number, key: string, frame: number, keyboard: Phaser.Keyboard) {
         super(game, x, y, key, frame);
 
+        this.originX = x;
+        this.originY = y;
+
         this.anchor.setTo(.5,.5);
         game.physics.enable(this, Phaser.Physics.ARCADE);
 
         this.body.bounce.y = 0.2;
         this.body.collideWorldBounds = true;
         //this.body.setSize(18, 24, 8, 8);
-        this.body.setCircle(14, 2, 6);
+        this.body.setCircle(13, 2, 6);
 
         this.animations.add('idle-left', [23], 10, true);
         this.animations.add('left', [23, 24, 25, 26], 10, true);
@@ -62,5 +67,18 @@ export class Hero extends Phaser.Sprite {
             this.body.velocity.y = -150;
             this.jumpTimer = this.game.time.now + 750;
         }
+    }
+
+    public biten () {
+        this.restartLevel();
+    }
+
+    public drown () {
+        this.restartLevel();
+    }
+
+    private restartLevel() {
+        this.x = this.originX;
+        this.y = this.originY;
     }
 }

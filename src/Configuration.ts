@@ -3,8 +3,8 @@
  */
 export default class Configuration {
 
-    public playWithGamePad() {
-        return false; // if false, the game will be playable with keyboard
+    public debug() {
+        return false;
     }
 
     public getGameWidth() {
@@ -14,6 +14,12 @@ export default class Configuration {
     public getGameHeight() {
         return 32 * 16;
     }
+
+    public getSeaLevel() {
+        return 450;
+    }
+
+    // TODO: drop the following ?
 
     public getGameWidthInTiles() {
         return 13;

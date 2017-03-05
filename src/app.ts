@@ -11,7 +11,7 @@ class SimpleGame {
     private snakes: Array<Snake>;
     private map;
     private layer;
-    private bg;
+    private background;
 
     constructor(config: Configuration) {
         this.configuration = config;
@@ -45,65 +45,71 @@ class SimpleGame {
     {
         this.game.physics.arcade.collide(this.hero, this.layer);
         this.hero.update();
+
+        if (this.hero.y > this.configuration.getSeaLevel()) {
+            this.hero.drown();
+        }
+
         for (let i = 0; i < this.snakes.length; i++) {
             this.game.physics.arcade.collide(this.snakes[i], this.layer);
             this.snakes[i].update();
+            this.game.physics.arcade.overlap(this.hero, this.snakes[i], this.bite, null, this);
         }
+    }
+
+    public bite (hero: Hero, snake: Snake)
+    {
+        hero.biten();
     }
 
     public render()
     {
-        this.game.debug.body(this.hero);
-        for (let i = 0; i < this.snakes.length; i++) {
-            this.game.debug.body(this.snakes[i]);
-        }
+        if (this.configuration.debug()) {
+            this.game.debug.body(this.hero);
+            for (let i = 0; i < this.snakes.length; i++) {
+                this.game.debug.body(this.snakes[i]);
+            }
 
-        /*
-        this.game.debug.text(
-            "FPS: "  + this.game.time.fps + " "
-            + " Player PV " + this.hero.health + " ",
-            2,
-            14,
-            "#00ff00"
-        );*/
+            this.game.debug.text(
+                "FPS: "  + this.game.time.fps + " ",
+                2,
+                14,
+                "#00ff00"
+            );
+        }
     }
 
     private createWorld()
     {
+        if (this.configuration.debug()) {
+            this.game.time.advancedTiming = true
+        }
+
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
         this.game.stage.backgroundColor = '#000000';
 
-        this.bg = this.game.add.tileSprite(0, 0, 800, 600, 'background-night');
-        this.bg = this.game.add.tileSprite(0, 0, 800, 600, 'background-day');
-
-        //this.bg.loadTexture('background-night');
-        this.bg.loadTexture('background-day');
-
-
-        this.bg.fixedToCamera = true;
+        this.background = this.game.add.tileSprite(0, 0, 800, 600, 'background-night');
+        this.background = this.game.add.tileSprite(0, 0, 800, 600, 'background-day');
+        //this.background.loadTexture('background-night');
+        this.background.loadTexture('background-day');
+        this.background.fixedToCamera = true;
 
         this.map = this.game.add.tilemap('level1');
-
         this.map.addTilesetImage('tiles-1');
-
-        this.map.setCollisionByExclusion([
-            8, 9, 10,
-            18, 19, 20,
-            28, 29, 30, 31, 35,
-            37, 38, 39,
-            40, 41, 42, 43, 44,
-            50, 57, 58, 59,
-            60, 67, 68, 69, 70,
-
-            11, 14, 15, 16
-        ]);
+        this.map.setCollision(
+            [
+                1, 2, 3, 4, 5, 6, 7,
+                12, 13,
+                21, 22, 23, 24, 25, 26, 27,
+                32, 33
+            ]
+        );
 
         this.layer = this.map.createLayer('Tile Layer 1');
-
-        //  Un-comment this on to see the collision tiles
-        this.layer.debug = true;
-
+        if (this.configuration.debug()) {
+            this.layer.debug = true;
+        }
         this.layer.resizeWorld();
 
         this.game.physics.arcade.gravity.y = 350;
