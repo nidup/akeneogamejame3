@@ -1,2 +1,8 @@
 node_modules
-build
+build/app.*
+build/G*
+build/H*
+build/L*
+build/S*
+build/s*
+
