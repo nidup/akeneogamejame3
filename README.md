@@ -4,15 +4,17 @@ Small platformer game rushly developed #uglyCodeAndBugsInside with Typescript + 
 
 ![Image of GameJam](doc/game-jam-3.jpg)
 
-![Image of GameJam](doc/gnome-day.png)
-
-![Image of GameJam](doc/gnome-night.png)
-
 # Demo
 
 You can access to the demo here https://nidup.github.io/underpants-gnomes/
 
 The demo is deployed on the `gh-pages` branch versionning the `build/bundles.js` file (npm run build to update).
+
+# Screenshots
+
+![Image of GameJam](doc/gnome-day.png)
+
+![Image of GameJam](doc/gnome-night.png)
 
 # Getting Started
 
