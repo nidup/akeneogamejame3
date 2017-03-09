@@ -12,9 +12,9 @@ The demo is deployed on the `gh-pages` branch versionning the `build/bundles.js`
 
 # Screenshots
 
-![Image of GameJam](doc/gnome-day.png)
-
 ![Image of GameJam](doc/gnome-night.png)
+
+![Image of GameJam](doc/gnome-day.png)
 
 # Getting Started
 
