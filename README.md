@@ -6,9 +6,7 @@ Small platformer game rushly developed #uglyCodeAndBugsInside with Typescript + 
 
 # Demo
 
-You can access to the demo here https://nidup.github.io/underpants-gnomes/
-
-The demo is deployed on the `gh-pages` branch versionning the `build/bundles.js` file (npm run build to update).
+You can [play the demo here](https://nidup.itch.io/underpants-gnomes)
 
 # Screenshots
 
